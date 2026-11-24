@@ -1,0 +1,29 @@
+{
+  "name": "crewloom",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Crewloom: the team's work console on top of OpenClaw. Projects, testing, marketing and reports for ZyoraERP.",
+  "type": "module",
+  "workspaces": [
+    "plugins/*",
+    "apps/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present && node --test scripts/*.test.mjs",
+    "lint": "npm run lint --workspaces --if-present",
+    "plugins:validate": "node scripts/validate-plugins.mjs",
+    "verify": "npm run lint && npm run test && npm run build && npm run plugins:validate",
+    "gateway:setup": "node scripts/setup-gateway.mjs",
+    "gateway:dev": "node scripts/dev-gateway.mjs",
+    "dev:console": "npm run dev -w @crewloom/console"
+  },
+  "devDependencies": {
+    "openclaw": "2026.11.8",
+    "typescript": "6.0.3",
+    "vitest": "^3.2.4"
+  },
+  "engines": {
+    "node": ">=24.22.1"
+  }
+}

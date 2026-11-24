@@ -1,0 +1,42 @@
+{
+  "id": "crewloom-github",
+  "name": "Crewloom GitHub",
+  "description": "Issues, pull request status (checks and Vercel previews) and comments for the ZyoraERP repository.",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "repositories": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Allowlist of owner/name repositories. The first is the default."
+      },
+      "tokenEnv": {
+        "type": "string",
+        "description": "Environment variable holding the GitHub token."
+      },
+      "apiBaseUrl": {
+        "type": "string",
+        "description": "GitHub API base URL (tests and GitHub Enterprise)."
+      },
+      "commentFooter": {
+        "type": "string",
+        "description": "Text appended to every comment the agent posts."
+      }
+    }
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "crewloom_github_list_issues",
+      "crewloom_github_create_issue",
+      "crewloom_github_list_pull_requests",
+      "crewloom_github_pull_request_status",
+      "crewloom_github_comment"
+    ]
+  }
+}

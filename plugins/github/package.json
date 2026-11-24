@@ -1,0 +1,36 @@
+{
+  "name": "@crewloom/plugin-github",
+  "version": "0.1.0",
+  "type": "module",
+  "private": true,
+  "description": "OpenClaw tools for the ZyoraERP GitHub repository: issues, pull request status and comments. Never merges or pushes.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "lint": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --config ./vitest.config.ts",
+    "plugin:build": "npm run build && openclaw plugins build --entry ./dist/index.js",
+    "plugin:validate": "npm run build && openclaw plugins validate --entry ./dist/index.js"
+  },
+  "files": [
+    "dist",
+    "openclaw.plugin.json",
+    "README.md"
+  ],
+  "peerDependencies": {
+    "openclaw": ">=2026.11.8"
+  },
+  "dependencies": {
+    "typebox": "^1.1.38"
+  },
+  "openclaw": {
+    "extensions": [
+      "./dist/index.js"
+    ],
+    "compat": {
+      "pluginApi": ">=2026.11.8"
+    },
+    "build": {
+      "openclawVersion": "2026.11.8"
+    }
+  }
+}

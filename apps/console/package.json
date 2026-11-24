@@ -1,0 +1,27 @@
+{
+  "name": "@crewloom/console",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Crewloom console: the team's board on top of the OpenClaw Workboard.",
+  "scripts": {
+    "dev": "next dev --port 3200",
+    "build": "next build",
+    "start": "next start --port 3200",
+    "lint": "eslint .",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dependencies": {
+    "@openclaw/gateway-client": "2026.11.8",
+    "@openclaw/gateway-protocol": "2026.11.8",
+    "next": "^16.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.4.6",
+    "tailwindcss": "^4.3.5"
+  }
+}

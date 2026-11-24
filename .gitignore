@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+deploy/.env
+.openclaw-dev/
+artifacts/
+test-results/
+playwright-report/
+.DS_Store

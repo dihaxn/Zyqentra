@@ -1,0 +1,53 @@
+{
+  "id": "crewloom-qa",
+  "name": "Crewloom QA",
+  "description": "Test ZyoraERP: run the repository's check scripts on a branch, smoke-test deployed pages and audit marketing pages.",
+  "version": "0.1.0",
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "repoPath": {
+        "type": "string",
+        "description": "Absolute path of a dedicated Zyora-erp checkout the tool may switch between refs."
+      },
+      "allowedScripts": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "npm scripts the agent may run. Default verify, lint, test, build."
+      },
+      "timeoutMinutes": {
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 120,
+        "description": "Per run. Default 30."
+      },
+      "allowedHosts": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Hosts smoke tests may open; \"*.example.com\" matches subdomains. Default zyoraerp.com, *.zyoraerp.com, *.vercel.app."
+      },
+      "screenshotDir": {
+        "type": "string",
+        "description": "Where screenshots are saved. Default the OS temp dir."
+      },
+      "bypassSecretEnv": {
+        "type": "string",
+        "description": "Env var with the Vercel protection bypass secret. Default VERCEL_AUTOMATION_BYPASS_SECRET."
+      }
+    }
+  },
+  "activation": {
+    "onStartup": true
+  },
+  "contracts": {
+    "tools": [
+      "crewloom_run_checks",
+      "crewloom_smoke_test",
+      "crewloom_page_audit"
+    ]
+  }
+}

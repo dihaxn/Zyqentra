@@ -1,0 +1,45 @@
+# Crewloom on one server. Run from the repo root:
+#   cp .env.example deploy/.env   # then fill it in
+#   docker compose -f deploy/docker-compose.yml up -d --build
+# Both ports are published on the host's loopback only. Reach them over Tailscale
+# (`tailscale serve`), never by opening them to the internet.
+services:
+  gateway:
+    build:
+      context: ..
+      dockerfile: deploy/gateway.Dockerfile
+    env_file: .env
+    environment:
+      OPENCLAW_HOME: /home/node
+      OPENCLAW_STATE_DIR: /home/node/.openclaw
+      CREWLOOM_QA_CHECKOUT: /srv/zyora-erp
+      TZ: Asia/Colombo
+    volumes:
+      - openclaw-state:/home/node/.openclaw
+      - erp-checkout:/srv/zyora-erp
+    ports:
+      - "127.0.0.1:18789:18789"
+      - "127.0.0.1:3200:3200"
+    cap_drop: [NET_RAW, NET_ADMIN]
+    security_opt: ["no-new-privileges:true"]
+    init: true
+    restart: unless-stopped
+
+  console:
+    build:
+      context: ..
+      dockerfile: deploy/console.Dockerfile
+    # Share the gateway's network: the console reaches it on loopback and
+    # is published through the gateway service's 3200 port.
+    network_mode: "service:gateway"
+    environment:
+      OPENCLAW_GATEWAY_URL: ws://127.0.0.1:18789
+      OPENCLAW_GATEWAY_TOKEN: ${OPENCLAW_GATEWAY_TOKEN:?set in deploy/.env}
+      CONSOLE_PASSWORD: ${CONSOLE_PASSWORD:?set in deploy/.env}
+      CONSOLE_SESSION_SECRET: ${CONSOLE_SESSION_SECRET:?set in deploy/.env}
+    depends_on: [gateway]
+    restart: unless-stopped
+
+volumes:
+  openclaw-state:
+  erp-checkout:
