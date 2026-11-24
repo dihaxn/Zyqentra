@@ -70,7 +70,7 @@ export async function smokeTest(options: SmokeOptions): Promise<SmokeResult> {
   const base = parseAllowedUrl(options.baseUrl, allowedHosts);
   const paths = normalizePaths(options.paths);
   const timeoutMs = options.timeoutMs ?? 30_000;
-  const screenshotDir = options.screenshotDir ?? path.join(os.tmpdir(), "crewloom-qa");
+  const screenshotDir = options.screenshotDir ?? path.join(os.tmpdir(), "zyqentra-qa");
   const runDir = path.join(screenshotDir, `${new Date().toISOString().replace(/[:.]/g, "-")}-${slug(base.hostname)}`);
   await mkdir(runDir, { recursive: true });
 

@@ -1,6 +1,6 @@
 {
-  "id": "crewloom-github",
-  "name": "Crewloom GitHub",
+  "id": "zyqentra-github",
+  "name": "Zyqentra GitHub",
   "description": "Issues, pull request status (checks and Vercel previews) and comments for the ZyoraERP repository.",
   "version": "0.1.0",
   "configSchema": {
@@ -32,11 +32,11 @@
   },
   "contracts": {
     "tools": [
-      "crewloom_github_list_issues",
-      "crewloom_github_create_issue",
-      "crewloom_github_list_pull_requests",
-      "crewloom_github_pull_request_status",
-      "crewloom_github_comment"
+      "zyqentra_github_list_issues",
+      "zyqentra_github_create_issue",
+      "zyqentra_github_list_pull_requests",
+      "zyqentra_github_pull_request_status",
+      "zyqentra_github_comment"
     ]
   }
 }

@@ -39,7 +39,7 @@ function main() {
   }
   writeFileSync(
     path.join(out, 'package.json'),
-    `${JSON.stringify({ name: 'crewloom-plugins-runtime', private: true, type: 'module', dependencies: mergeDependencies(manifests) }, null, 2)}\n`,
+    `${JSON.stringify({ name: 'zyqentra-plugins-runtime', private: true, type: 'module', dependencies: mergeDependencies(manifests) }, null, 2)}\n`,
   );
   console.log(`Packed ${manifests.length} plugins into ${out}`);
 }

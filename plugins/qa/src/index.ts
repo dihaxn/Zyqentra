@@ -5,7 +5,7 @@ import { DEFAULT_ALLOWED_HOSTS } from "./hosts.js";
 import { auditPage } from "./page-audit.js";
 import { smokeTest } from "./smoke.js";
 
-const DEFAULT_REPO_ENV = "CREWLOOM_QA_CHECKOUT";
+const DEFAULT_REPO_ENV = "ZYQENTRA_QA_CHECKOUT";
 const DEFAULT_BYPASS_ENV = "VERCEL_AUTOMATION_BYPASS_SECRET";
 
 type QaConfig = {
@@ -23,15 +23,15 @@ function repoPathFrom(config: QaConfig | undefined): string {
   const repoPath = config?.repoPath ?? process.env[DEFAULT_REPO_ENV];
   if (!repoPath) {
     throw new Error(
-      `Set plugins.entries.crewloom-qa.config.repoPath (or ${DEFAULT_REPO_ENV}) to a dedicated Zyora-erp checkout.`,
+      `Set plugins.entries.zyqentra-qa.config.repoPath (or ${DEFAULT_REPO_ENV}) to a dedicated Zyora-erp checkout.`,
     );
   }
   return repoPath;
 }
 
 export default defineToolPlugin({
-  id: "crewloom-qa",
-  name: "Crewloom QA",
+  id: "zyqentra-qa",
+  name: "Zyqentra QA",
   description: "Test ZyoraERP: run the repository's check scripts on a branch, smoke-test deployed pages and audit marketing pages.",
   configSchema: Type.Object({
     repoPath: Type.Optional(
@@ -53,7 +53,7 @@ export default defineToolPlugin({
       }),
     ),
     gitTokenEnv: Type.Optional(
-      Type.String({ description: "Env var git may use for GitHub credentials. Never passed to npm. Default CREWLOOM_GITHUB_TOKEN." }),
+      Type.String({ description: "Env var git may use for GitHub credentials. Never passed to npm. Default ZYQENTRA_GITHUB_TOKEN." }),
     ),
     bypassSecretEnv: Type.Optional(
       Type.String({ description: `Env var with the Vercel protection bypass secret. Default ${DEFAULT_BYPASS_ENV}.` }),
@@ -61,7 +61,7 @@ export default defineToolPlugin({
   }),
   tools: (tool) => [
     tool({
-      name: "crewloom_run_checks",
+      name: "zyqentra_run_checks",
       label: "Run Zyora checks",
       description:
         "Run one of the ZyoraERP repository's npm scripts (verify = lint + test + build) in the dedicated test checkout. " +
@@ -87,7 +87,7 @@ export default defineToolPlugin({
         }),
     }),
     tool({
-      name: "crewloom_smoke_test",
+      name: "zyqentra_smoke_test",
       label: "Smoke-test Zyora pages",
       description:
         "Open pages of a ZyoraERP deployment (production or a Vercel preview) in headless Chromium. Reports HTTP status, " +
@@ -109,7 +109,7 @@ export default defineToolPlugin({
         }),
     }),
     tool({
-      name: "crewloom_page_audit",
+      name: "zyqentra_page_audit",
       label: "Audit a Zyora page",
       description:
         "Check one marketing or public page as search engines and link previews see it: title, meta description, " +

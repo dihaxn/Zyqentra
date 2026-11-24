@@ -82,7 +82,7 @@ export default async function BoardPage() {
       <header className="border-b border-slate-200 bg-white px-4 py-3 dark:border-slate-800 dark:bg-slate-900 sm:px-6">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h1 className="text-lg font-semibold">Crewloom</h1>
+            <h1 className="text-lg font-semibold">Zyqentra</h1>
             <p className="text-xs text-slate-500 dark:text-slate-400">
               {error
                 ? 'Gateway unreachable'

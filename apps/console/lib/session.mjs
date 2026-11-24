@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
-export const SESSION_COOKIE = 'crewloom_session';
+export const SESSION_COOKIE = 'zyqentra_session';
 export const SESSION_MAX_AGE_SECONDS = 12 * 60 * 60;
 const MIN_SECRET_LENGTH = 32;
 
@@ -46,7 +46,7 @@ export function verifySessionToken(token, secret, now = Date.now()) {
 /** Compare a submitted password with the configured one without leaking timing. */
 export function passwordMatches(submitted, expected) {
   if (typeof expected !== 'string' || expected.length < 12) return false;
-  const a = createHmac('sha256', 'crewloom-password').update(String(submitted ?? '')).digest();
-  const b = createHmac('sha256', 'crewloom-password').update(expected).digest();
+  const a = createHmac('sha256', 'zyqentra-password').update(String(submitted ?? '')).digest();
+  const b = createHmac('sha256', 'zyqentra-password').update(expected).digest();
   return timingSafeEqual(a, b);
 }

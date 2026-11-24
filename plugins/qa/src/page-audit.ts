@@ -126,7 +126,7 @@ export async function auditPage(options: {
     const response = await fetchImpl(url.toString(), {
       redirect: "manual",
       headers: {
-        "User-Agent": "CrewloomAudit/1.0",
+        "User-Agent": "ZyqentraAudit/1.0",
         Accept: "text/html",
         ...(options.bypassSecret ? { "x-vercel-protection-bypass": options.bypassSecret } : {}),
       },

@@ -1,6 +1,6 @@
 {
-  "id": "crewloom-qa",
-  "name": "Crewloom QA",
+  "id": "zyqentra-qa",
+  "name": "Zyqentra QA",
   "description": "Test ZyoraERP: run the repository's check scripts on a branch, smoke-test deployed pages and audit marketing pages.",
   "version": "0.1.0",
   "configSchema": {
@@ -43,7 +43,7 @@
       },
       "gitTokenEnv": {
         "type": "string",
-        "description": "Env var git may use for GitHub credentials. Never passed to npm. Default CREWLOOM_GITHUB_TOKEN."
+        "description": "Env var git may use for GitHub credentials. Never passed to npm. Default ZYQENTRA_GITHUB_TOKEN."
       },
       "bypassSecretEnv": {
         "type": "string",
@@ -56,9 +56,9 @@
   },
   "contracts": {
     "tools": [
-      "crewloom_run_checks",
-      "crewloom_smoke_test",
-      "crewloom_page_audit"
+      "zyqentra_run_checks",
+      "zyqentra_smoke_test",
+      "zyqentra_page_audit"
     ]
   }
 }

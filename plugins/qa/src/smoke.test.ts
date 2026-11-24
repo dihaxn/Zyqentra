@@ -48,7 +48,7 @@ describe.skipIf(!browserAvailable)("smokeTest in Chromium", () => {
   let shots: string;
 
   beforeAll(async () => {
-    shots = mkdtempSync(path.join(os.tmpdir(), "crewloom-smoke-"));
+    shots = mkdtempSync(path.join(os.tmpdir(), "zyqentra-smoke-"));
     server = createServer((request, response) => {
       response.setHeader("Content-Type", "text/html");
       if (request.url === "/broken") {

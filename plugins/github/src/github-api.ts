@@ -23,7 +23,7 @@ export function createGitHubClient(options: GitHubClientOptions): GitHubClient {
           Accept: "application/vnd.github+json",
           Authorization: `Bearer ${options.token}`,
           "X-GitHub-Api-Version": "2022-11-28",
-          "User-Agent": "crewloom",
+          "User-Agent": "zyqentra",
           ...(body === undefined ? {} : { "Content-Type": "application/json" }),
         },
         body: body === undefined ? undefined : JSON.stringify(body),

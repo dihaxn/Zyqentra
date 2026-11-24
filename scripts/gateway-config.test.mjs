@@ -3,27 +3,27 @@ import { test } from 'node:test';
 import { DEFAULT_MODEL, gatewayConfigEntries } from './gateway-config.mjs';
 
 test('points the Gateway at the repo plugins and skills', () => {
-  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/crewloom', erpCheckout: '/srv/zyora-erp' }));
-  assert.deepEqual(entries['plugins.load.paths'], ['/srv/crewloom/plugins/github', '/srv/crewloom/plugins/qa']);
-  assert.deepEqual(entries['skills.load.extraDirs'], ['/srv/crewloom/skills']);
+  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/zyqentra', erpCheckout: '/srv/zyora-erp' }));
+  assert.deepEqual(entries['plugins.load.paths'], ['/srv/zyqentra/plugins/github', '/srv/zyqentra/plugins/qa']);
+  assert.deepEqual(entries['skills.load.extraDirs'], ['/srv/zyqentra/skills']);
   assert.equal(entries['plugins.entries.workboard.enabled'], true);
-  assert.equal(entries['plugins.entries.crewloom-qa.config'].repoPath, '/srv/zyora-erp');
+  assert.equal(entries['plugins.entries.zyqentra-qa.config'].repoPath, '/srv/zyora-erp');
   assert.equal(entries['agents.defaults.model.primary'], DEFAULT_MODEL);
 });
 
 test('leaves repoPath out when no checkout is given', () => {
-  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/crewloom' }));
-  assert.equal('repoPath' in entries['plugins.entries.crewloom-qa.config'], false);
+  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/zyqentra' }));
+  assert.equal('repoPath' in entries['plugins.entries.zyqentra-qa.config'], false);
 });
 
 test('never writes secrets into config', () => {
-  const text = JSON.stringify(gatewayConfigEntries({ root: '/srv/crewloom', erpCheckout: '/srv/zyora-erp' }));
+  const text = JSON.stringify(gatewayConfigEntries({ root: '/srv/zyqentra', erpCheckout: '/srv/zyora-erp' }));
   assert.doesNotMatch(text, /token|secret|password|api[_-]?key/i);
 });
 
 test('rejects relative paths', () => {
-  assert.throws(() => gatewayConfigEntries({ root: 'crewloom' }), /absolute/);
-  assert.throws(() => gatewayConfigEntries({ root: '/srv/crewloom', erpCheckout: '../erp' }), /absolute/);
+  assert.throws(() => gatewayConfigEntries({ root: 'zyqentra' }), /absolute/);
+  assert.throws(() => gatewayConfigEntries({ root: '/srv/zyqentra', erpCheckout: '../erp' }), /absolute/);
 });
 
 test('.env parsing for the dev gateway', async () => {
@@ -46,9 +46,9 @@ test('plugin runtime dependencies merge, and conflicts are refused', async () =>
   );
 });
 
-test('agents get a minimal tool profile with only Crewloom, Workboard, skills and memory on top', async () => {
+test('agents get a minimal tool profile with only Zyqentra, Workboard, skills and memory on top', async () => {
   const { AGENT_TOOL_ALLOWLIST } = await import('./gateway-config.mjs');
-  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/crewloom' }));
+  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/zyqentra' }));
   assert.equal(entries['tools.profile'], 'minimal');
   assert.deepEqual(entries['tools.alsoAllow'], AGENT_TOOL_ALLOWLIST);
   assert.equal(entries['tools.elevated.enabled'], false);

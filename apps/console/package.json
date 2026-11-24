@@ -1,8 +1,8 @@
 {
-  "name": "@crewloom/console",
+  "name": "@zyqentra/console",
   "version": "0.1.0",
   "private": true,
-  "description": "Crewloom console: the team's board on top of the OpenClaw Workboard.",
+  "description": "Zyqentra console: the team's board on top of the OpenClaw Workboard.",
   "scripts": {
     "dev": "next dev --port 3200",
     "build": "next build",

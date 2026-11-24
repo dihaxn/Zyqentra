@@ -3,7 +3,7 @@ import { defineToolPlugin } from "openclaw/plugin-sdk/tool-plugin";
 import { createGitHubClient } from "./github-api.js";
 import { createGithubTools, type GithubToolsConfig } from "./tools.js";
 
-const DEFAULT_TOKEN_ENV = "CREWLOOM_GITHUB_TOKEN";
+const DEFAULT_TOKEN_ENV = "ZYQENTRA_GITHUB_TOKEN";
 
 type PluginConfig = GithubToolsConfig & { tokenEnv?: string; apiBaseUrl?: string };
 
@@ -26,8 +26,8 @@ const state = Type.Optional(
 const limit = Type.Optional(Type.Integer({ minimum: 1, maximum: 50, description: "Default 20." }));
 
 export default defineToolPlugin({
-  id: "crewloom-github",
-  name: "Crewloom GitHub",
+  id: "zyqentra-github",
+  name: "Zyqentra GitHub",
   description: "Issues, pull request status (checks and Vercel previews) and comments for the ZyoraERP repository.",
   configSchema: Type.Object({
     repositories: Type.Optional(
@@ -39,7 +39,7 @@ export default defineToolPlugin({
   }),
   tools: (tool) => [
     tool({
-      name: "crewloom_github_list_issues",
+      name: "zyqentra_github_list_issues",
       label: "List Zyora issues",
       description: "List GitHub issues (not pull requests) in a Zyora repository, newest activity first.",
       workspaceAccess: false,
@@ -52,7 +52,7 @@ export default defineToolPlugin({
       execute: (params, config) => toolsFor(config).listIssues(params),
     }),
     tool({
-      name: "crewloom_github_create_issue",
+      name: "zyqentra_github_create_issue",
       label: "Create Zyora issue",
       description: "Open a GitHub issue in a Zyora repository. Returns its number and URL; link it to the Workboard card.",
       workspaceAccess: false,
@@ -65,7 +65,7 @@ export default defineToolPlugin({
       execute: (params, config) => toolsFor(config).createIssue(params),
     }),
     tool({
-      name: "crewloom_github_list_pull_requests",
+      name: "zyqentra_github_list_pull_requests",
       label: "List Zyora pull requests",
       description: "List pull requests in a Zyora repository with branch, author and draft state.",
       workspaceAccess: false,
@@ -73,7 +73,7 @@ export default defineToolPlugin({
       execute: (params, config) => toolsFor(config).listPullRequests(params),
     }),
     tool({
-      name: "crewloom_github_pull_request_status",
+      name: "zyqentra_github_pull_request_status",
       label: "Zyora pull request status",
       description:
         "Read one pull request: state, mergeability, a summary of its checks and commit statuses, and its Vercel preview URLs.",
@@ -82,7 +82,7 @@ export default defineToolPlugin({
       execute: (params, config) => toolsFor(config).pullRequestStatus(params),
     }),
     tool({
-      name: "crewloom_github_comment",
+      name: "zyqentra_github_comment",
       label: "Comment on Zyora issue or PR",
       description:
         "Post a comment on an issue or pull request. A footer marks it as posted by the agent. Cannot merge, approve or push.",

@@ -36,15 +36,15 @@ function connect() {
 
 function connection() {
   const cache = globalThis;
-  if (!cache.__crewloomGateway) {
-    cache.__crewloomGateway = connect();
-    cache.__crewloomGateway.ready.catch(() => {
+  if (!cache.__zyqentraGateway) {
+    cache.__zyqentraGateway = connect();
+    cache.__zyqentraGateway.ready.catch(() => {
       // Let the next request try a fresh connection.
-      cache.__crewloomGateway?.client.stop();
-      cache.__crewloomGateway = undefined;
+      cache.__zyqentraGateway?.client.stop();
+      cache.__zyqentraGateway = undefined;
     });
   }
-  return cache.__crewloomGateway;
+  return cache.__zyqentraGateway;
 }
 
 export async function callGateway(method, params = {}) {

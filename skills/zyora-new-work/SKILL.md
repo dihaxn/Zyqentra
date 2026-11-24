@@ -18,7 +18,7 @@ Use when someone describes work for ZyoraERP in chat ("customers can't print rec
    - **Body** with these headings: `What`, `Why`, `Acceptance checks` (a bullet list someone can test),
      and for bugs `Steps to reproduce` and `Expected / actual`.
    - Labels: `bug`, `feature` or `chore`, plus the app (`pos`, `admin`, `mobile`) when known.
-3. Call `crewloom_github_create_issue`. Keep the returned number and URL.
+3. Call `zyqentra_github_create_issue`. Keep the returned number and URL.
 4. Create the card with `workboard_create`: same title, status `triage` (or `todo` if the requester
    says it is planned), priority from the request (`urgent` only for outages or money at risk),
    labels as on the issue, `sourceUrl` the issue URL, notes with the acceptance checks.
@@ -26,7 +26,7 @@ Use when someone describes work for ZyoraERP in chat ("customers can't print rec
 
 ## Rules
 
-- Search first: `crewloom_github_list_issues` and `workboard_list`. If a matching issue or card exists,
+- Search first: `zyqentra_github_list_issues` and `workboard_list`. If a matching issue or card exists,
   link to it instead of creating a duplicate.
 - Never include customer personal data (names, phone numbers, emails) in issues; describe the shop
   and situation instead.

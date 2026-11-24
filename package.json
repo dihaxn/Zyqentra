@@ -1,8 +1,8 @@
 {
-  "name": "crewloom",
+  "name": "zyqentra",
   "version": "0.1.0",
   "private": true,
-  "description": "Crewloom: the team's work console on top of OpenClaw. Projects, testing, marketing and reports for ZyoraERP.",
+  "description": "Zyqentra: the team's work console on top of OpenClaw. Projects, testing, marketing and reports for ZyoraERP.",
   "type": "module",
   "workspaces": [
     "plugins/*",
@@ -16,7 +16,7 @@
     "verify": "npm run lint && npm run test && npm run build && npm run plugins:validate",
     "gateway:setup": "node scripts/setup-gateway.mjs",
     "gateway:dev": "node scripts/dev-gateway.mjs",
-    "dev:console": "npm run dev -w @crewloom/console"
+    "dev:console": "npm run dev -w @zyqentra/console"
   },
   "devDependencies": {
     "openclaw": "2026.11.8",

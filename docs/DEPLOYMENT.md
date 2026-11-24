@@ -5,7 +5,7 @@ running Docker and Tailscale. Both services listen on the server's loopback only
 
 > Status: the Compose files have not yet been built on a real server. Everything they run was tested
 > on its own: the plugins loaded from the same folder layout the image uses, the console against a live
-> Gateway, `crewloom_run_checks` against Zyora-erp. Expect small fixes on the first `docker compose build`.
+> Gateway, `zyqentra_run_checks` against Zyora-erp. Expect small fixes on the first `docker compose build`.
 
 ## 1. Tokens
 
@@ -13,7 +13,7 @@ running Docker and Tailscale. Both services listen on the server's loopback only
 | --- | --- | --- |
 | `OPENCLAW_GATEWAY_TOKEN` | `openssl rand -hex 32` | Full operator access to the Gateway: treat like a root password |
 | `ANTHROPIC_API_KEY` | console.anthropic.com | Set a monthly spend limit on the key |
-| `CREWLOOM_GITHUB_TOKEN` | GitHub → Settings → Developer settings → Fine-grained token | Only `dihaxn/Zyora-erp` (+ `dihaxn/crewloom`): Issues RW, Pull requests RW, Contents R, Checks R, Commit statuses R, Deployments R |
+| `ZYQENTRA_GITHUB_TOKEN` | GitHub → Settings → Developer settings → Fine-grained token | Only `dihaxn/Zyora-erp` (+ `dihaxn/zyqentra`): Issues RW, Pull requests RW, Contents R, Checks R, Commit statuses R, Deployments R |
 | `CONSOLE_PASSWORD` | `openssl rand -hex 16`, share in your password manager | Console sign-in |
 | `CONSOLE_SESSION_SECRET` | `openssl rand -hex 32` | Signs console sessions |
 | `VERCEL_AUTOMATION_BYPASS_SECRET` | Vercel → project → Settings → Deployment Protection | Optional, only if previews are protected |
@@ -21,7 +21,7 @@ running Docker and Tailscale. Both services listen on the server's loopback only
 ## 2. First start
 
 ```bash
-git clone https://github.com/dihaxn/crewloom.git && cd crewloom
+git clone https://github.com/dihaxn/zyqentra.git && cd zyqentra
 cp .env.example deploy/.env && chmod 600 deploy/.env   # fill it in
 docker compose -f deploy/docker-compose.yml up -d --build
 docker compose -f deploy/docker-compose.yml logs -f gateway   # wait for "ready"
@@ -33,7 +33,7 @@ token from the environment; it is not stored), applies `scripts/gateway-config.m
 ## 3. Reach it over Tailscale
 
 ```bash
-sudo tailscale serve --bg --https=443 http://127.0.0.1:3200      # Crewloom console for the team
+sudo tailscale serve --bg --https=443 http://127.0.0.1:3200      # Zyqentra console for the team
 ```
 
 Admins reach OpenClaw's own Control UI through an SSH tunnel rather than a proxy (a proxy in front of it

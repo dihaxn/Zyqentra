@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
-# The Crewloom console (Next.js). Build from the repo root.
+# The Zyqentra console (Next.js). Build from the repo root.
 FROM node:24-bookworm-slim AS build
-WORKDIR /opt/crewloom
+WORKDIR /opt/zyqentra
 COPY package.json package-lock.json ./
 COPY plugins/github/package.json plugins/github/package.json
 COPY plugins/qa/package.json plugins/qa/package.json
@@ -10,7 +10,7 @@ RUN npm ci --no-audit --no-fund -w apps/console && npm run build -w apps/console
 
 FROM node:24-bookworm-slim
 ENV NODE_ENV=production
-WORKDIR /opt/crewloom
-COPY --from=build /opt/crewloom /opt/crewloom
+WORKDIR /opt/zyqentra
+COPY --from=build /opt/zyqentra /opt/zyqentra
 USER node
 CMD ["npm", "run", "start", "-w", "apps/console"]

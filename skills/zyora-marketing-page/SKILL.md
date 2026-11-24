@@ -17,7 +17,7 @@ routes such as `privacy-policy`, `terms`, `return-policy`, `signup`. Styling mus
 
 ## Audit an existing page
 
-1. Call `crewloom_page_audit` on the production URL (for example `https://zyoraerp.com/`).
+1. Call `zyqentra_page_audit` on the production URL (for example `https://zyoraerp.com/`).
 2. Report the score, then the issues grouped by severity, each with a concrete fix
    (for example the exact new meta description, 70–160 characters).
 
@@ -30,8 +30,8 @@ routes such as `privacy-policy`, `terms`, `return-policy`, `signup`. Styling mus
    (30–65 characters) and meta description (70–160 characters). Ask for approval of the copy.
 3. After approval, the code change is made on a branch and opened as a **draft** pull request by a
    coding agent or a developer. Link the PR to the card.
-4. When the PR has a Vercel preview (`crewloom_github_pull_request_status`), run `crewloom_page_audit` and
-   `crewloom_smoke_test` on the preview page and post both results on the PR with `crewloom_github_comment`.
+4. When the PR has a Vercel preview (`zyqentra_github_pull_request_status`), run `zyqentra_page_audit` and
+   `zyqentra_smoke_test` on the preview page and post both results on the PR with `zyqentra_github_comment`.
 5. Move the card to `review`. A person approves and merges.
 
 ## Rules

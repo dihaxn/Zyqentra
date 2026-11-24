@@ -10,11 +10,11 @@ Use when asked for the daily or morning report, or when a scheduled job asks for
 
 ## Gather
 
-1. `crewloom_github_list_pull_requests` with `state: "closed"`, `limit: 20`: keep the ones merged in the
-   last 24 hours (check `crewloom_github_pull_request_status` only when the state is unclear).
-2. `crewloom_github_list_pull_requests` with `state: "open"`: for each, `crewloom_github_pull_request_status`
+1. `zyqentra_github_list_pull_requests` with `state: "closed"`, `limit: 20`: keep the ones merged in the
+   last 24 hours (check `zyqentra_github_pull_request_status` only when the state is unclear).
+2. `zyqentra_github_list_pull_requests` with `state: "open"`: for each, `zyqentra_github_pull_request_status`
    to get its checks summary.
-3. `crewloom_github_list_issues` with `state: "open"`, `limit: 30`: note the ones created or updated in the
+3. `zyqentra_github_list_issues` with `state: "open"`, `limit: 30`: note the ones created or updated in the
    last 24 hours and any labelled `bug`.
 4. `workboard_stats` and `workboard_list`: cards in `blocked`, cards in `running` for more than a day,
    and cards moved to `done` since yesterday.

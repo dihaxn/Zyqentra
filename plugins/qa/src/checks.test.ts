@@ -7,9 +7,9 @@ import { getToolPluginMetadata } from "openclaw/plugin-sdk/tool-plugin";
 import entry from "./index.js";
 import { runChecks, runCommand, validateRef, type CommandEnv, type RunCommand } from "./checks.js";
 
-describe("crewloom-qa metadata", () => {
+describe("zyqentra-qa metadata", () => {
   it("declares the checks, smoke and page audit tools", () => {
-    expect(getToolPluginMetadata(entry)?.tools.map((tool) => tool.name)).toEqual(["crewloom_run_checks", "crewloom_smoke_test", "crewloom_page_audit"]);
+    expect(getToolPluginMetadata(entry)?.tools.map((tool) => tool.name)).toEqual(["zyqentra_run_checks", "zyqentra_smoke_test", "zyqentra_page_audit"]);
   });
 });
 
@@ -74,7 +74,7 @@ describe("runChecks with a fake runner", () => {
         HOME: "/home/node",
         ANTHROPIC_API_KEY: "sk-secret",
         OPENCLAW_GATEWAY_TOKEN: "gw-secret",
-        CREWLOOM_GITHUB_TOKEN: "gh-secret",
+        ZYQENTRA_GITHUB_TOKEN: "gh-secret",
         NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
       },
     });
@@ -82,7 +82,7 @@ describe("runChecks with a fake runner", () => {
     expect(npm).toEqual({ CI: "1", FORCE_COLOR: "0", PATH: "/usr/bin", HOME: "/home/node", NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co" });
     expect(envs["npm ci --no-audit --no-fund"]).toEqual(npm);
     const git = envs["git fetch --depth=50 origin main"]!;
-    expect(git.CREWLOOM_GITHUB_TOKEN).toBe("gh-secret");
+    expect(git.ZYQENTRA_GITHUB_TOKEN).toBe("gh-secret");
     expect(git.ANTHROPIC_API_KEY).toBeUndefined();
     expect(git.OPENCLAW_GATEWAY_TOKEN).toBeUndefined();
   });
@@ -110,7 +110,7 @@ describe("runChecks against real git and npm", () => {
   let checkout: string;
 
   beforeAll(() => {
-    root = mkdtempSync(path.join(os.tmpdir(), "crewloom-qa-"));
+    root = mkdtempSync(path.join(os.tmpdir(), "zyqentra-qa-"));
     const origin = path.join(root, "origin");
     checkout = path.join(root, "checkout");
     const git = (cwd: string, ...args: string[]) => execFileSync("git", args, { cwd, stdio: "pipe" });

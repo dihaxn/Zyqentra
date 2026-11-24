@@ -28,21 +28,21 @@ function fakeGitHub(routes: Record<string, unknown>) {
   return { client, calls };
 }
 
-describe("crewloom-github metadata", () => {
+describe("zyqentra-github metadata", () => {
   it("declares exactly the read, issue and comment tools", () => {
     expect(getToolPluginMetadata(entry)?.tools.map((tool) => tool.name)).toEqual([
-      "crewloom_github_list_issues",
-      "crewloom_github_create_issue",
-      "crewloom_github_list_pull_requests",
-      "crewloom_github_pull_request_status",
-      "crewloom_github_comment",
+      "zyqentra_github_list_issues",
+      "zyqentra_github_create_issue",
+      "zyqentra_github_list_pull_requests",
+      "zyqentra_github_pull_request_status",
+      "zyqentra_github_comment",
     ]);
   });
 });
 
 describe("resolveRepository", () => {
   it("defaults to the first allowed repository", () => {
-    expect(resolveRepository(undefined, ["dihaxn/Zyora-erp", "dihaxn/crewloom"])).toBe("dihaxn/Zyora-erp");
+    expect(resolveRepository(undefined, ["dihaxn/Zyora-erp", "dihaxn/zyqentra"])).toBe("dihaxn/Zyora-erp");
     expect(resolveRepository("", [])).toBe("dihaxn/Zyora-erp");
   });
 

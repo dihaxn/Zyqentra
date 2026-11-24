@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Apply Crewloom settings to an OpenClaw Gateway's config with the official CLI.
-// Usage: OPENCLAW_STATE_DIR=... CREWLOOM_QA_CHECKOUT=/abs/path node scripts/setup-gateway.mjs
+// Apply Zyqentra settings to an OpenClaw Gateway's config with the official CLI.
+// Usage: OPENCLAW_STATE_DIR=... ZYQENTRA_QA_CHECKOUT=/abs/path node scripts/setup-gateway.mjs
 // Restart the Gateway afterwards.
 import { execFileSync } from 'node:child_process';
 import { existsSync } from 'node:fs';
@@ -24,9 +24,9 @@ for (const dir of ['plugins/github', 'plugins/qa']) {
 }
 
 const entries = gatewayConfigEntries({
-  root: process.env.CREWLOOM_ROOT ?? root,
-  erpCheckout: process.env.CREWLOOM_QA_CHECKOUT || undefined,
-  model: process.env.CREWLOOM_AGENT_MODEL || undefined,
+  root: process.env.ZYQENTRA_ROOT ?? root,
+  erpCheckout: process.env.ZYQENTRA_QA_CHECKOUT || undefined,
+  model: process.env.ZYQENTRA_AGENT_MODEL || undefined,
 });
 
 // A running Gateway owns its config: the CLI routes writes through it, using OPENCLAW_GATEWAY_TOKEN.
@@ -39,7 +39,7 @@ for (const [key, value] of entries) {
   }
   console.log(`set ${key}`);
 }
-if (!process.env.CREWLOOM_QA_CHECKOUT) {
-  console.warn('CREWLOOM_QA_CHECKOUT is not set: crewloom_run_checks stays unavailable until it is.');
+if (!process.env.ZYQENTRA_QA_CHECKOUT) {
+  console.warn('ZYQENTRA_QA_CHECKOUT is not set: zyqentra_run_checks stays unavailable until it is.');
 }
 console.log('Done. Restart the Gateway to apply.');

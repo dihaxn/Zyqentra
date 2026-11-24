@@ -1,6 +1,6 @@
-# Crewloom
+# Zyqentra
 
-Crewloom weaves a team and its AI agents into one board: projects, testing, marketing pages and
+Zyqentra brings a team and its AI agents onto one board: projects, testing, marketing pages and
 reports. It is built on [OpenClaw](https://github.com/openclaw/openclaw) (MIT, self-hosted AI agent
 gateway) and set up first for the ZyoraERP project. OpenClaw is **not forked**: this repo runs the official
 release at a pinned version and adds our own plugins, skills and UI on top.
@@ -8,8 +8,8 @@ release at a pinned version and adds our own plugins, skills and UI on top.
 | Part | Path | What it is |
 | --- | --- | --- |
 | Console | `apps/console` | Next.js board for the team: cards by stage, linked GitHub issues/PRs, test proof, start agents |
-| `crewloom-github` plugin | `plugins/github` | Agent tools: issues, PR status (checks + Vercel previews), comments. No merge or push |
-| `crewloom-qa` plugin | `plugins/qa` | Agent tools: run `npm run verify` on a branch, browser smoke tests, marketing page audits |
+| `zyqentra-github` plugin | `plugins/github` | Agent tools: issues, PR status (checks + Vercel previews), comments. No merge or push |
+| `zyqentra-qa` plugin | `plugins/qa` | Agent tools: run `npm run verify` on a branch, browser smoke tests, marketing page audits |
 | Skills | `skills/` | Playbooks for the ZyoraERP project: `zyora-pr-check`, `zyora-new-work`, `zyora-marketing-page`, `zyora-daily-report` |
 | Deploy | `deploy/` | Docker Compose: Gateway (pinned OpenClaw image + our plugins) and console, loopback-only |
 
@@ -22,9 +22,9 @@ Needs Node 24.22+ and git.
 ```bash
 npm install
 npm run build
-cp .env.example .env          # fill in OPENCLAW_GATEWAY_TOKEN, ANTHROPIC_API_KEY, CREWLOOM_GITHUB_TOKEN
+cp .env.example .env          # fill in OPENCLAW_GATEWAY_TOKEN, ANTHROPIC_API_KEY, ZYQENTRA_GITHUB_TOKEN
 git clone https://github.com/dihaxn/Zyora-erp.git ../zyora-erp-qa   # a checkout only the QA tool uses
-# set CREWLOOM_QA_CHECKOUT=/absolute/path/to/zyora-erp-qa in .env
+# set ZYQENTRA_QA_CHECKOUT=/absolute/path/to/zyora-erp-qa in .env
 npm run gateway:dev           # OpenClaw Gateway on 127.0.0.1:18789, state in .openclaw-dev/
 
 cp apps/console/.env.example apps/console/.env.local   # same gateway token, a team password, a session secret

@@ -2,12 +2,12 @@ import path from 'node:path';
 
 export const PLUGIN_DIRS = ['plugins/github', 'plugins/qa'];
 export const DEFAULT_MODEL = 'anthropic/claude-sonnet-5-5';
-export const MANAGED_REPOSITORIES = ['dihaxn/Zyora-erp', 'dihaxn/crewloom'];
+export const MANAGED_REPOSITORIES = ['dihaxn/Zyora-erp', 'dihaxn/Zyqentra'];
 // Everything an agent may call on top of the minimal profile. No shell, file writes,
 // plugin installs, gateway config, browser or computer control.
 export const AGENT_TOOL_ALLOWLIST = [
-  'crewloom-github',
-  'crewloom-qa',
+  'zyqentra-github',
+  'zyqentra-qa',
   'workboard',
   'skills_read',
   'skills_search',
@@ -16,14 +16,14 @@ export const AGENT_TOOL_ALLOWLIST = [
 ];
 
 /**
- * The Gateway settings Crewloom depends on, as `openclaw config set` entries.
+ * The Gateway settings Zyqentra depends on, as `openclaw config set` entries.
  * Kept declarative so the same list configures a laptop, the server and the tests.
  * Secrets are never part of it: they come from the Gateway's environment.
  */
 export function gatewayConfigEntries({ root, erpCheckout, model = DEFAULT_MODEL }) {
   if (!path.isAbsolute(root)) throw new Error('root must be an absolute path');
   if (erpCheckout !== undefined && !path.isAbsolute(erpCheckout)) {
-    throw new Error('CREWLOOM_QA_CHECKOUT must be an absolute path');
+    throw new Error('ZYQENTRA_QA_CHECKOUT must be an absolute path');
   }
   const qaConfig = {
     allowedHosts: ['zyoraerp.com', '*.zyoraerp.com', '*.vercel.app'],
@@ -41,10 +41,10 @@ export function gatewayConfigEntries({ root, erpCheckout, model = DEFAULT_MODEL 
     ['plugins.entries.cua-computer.enabled', false],
     ['plugins.load.paths', PLUGIN_DIRS.map((dir) => path.join(root, dir))],
     ['plugins.entries.workboard.enabled', true],
-    ['plugins.entries.crewloom-github.enabled', true],
-    ['plugins.entries.crewloom-github.config', { repositories: MANAGED_REPOSITORIES }],
-    ['plugins.entries.crewloom-qa.enabled', true],
-    ['plugins.entries.crewloom-qa.config', qaConfig],
+    ['plugins.entries.zyqentra-github.enabled', true],
+    ['plugins.entries.zyqentra-github.config', { repositories: MANAGED_REPOSITORIES }],
+    ['plugins.entries.zyqentra-qa.enabled', true],
+    ['plugins.entries.zyqentra-qa.config', qaConfig],
     ['skills.load.extraDirs', [path.join(root, 'skills')]],
   ];
 }

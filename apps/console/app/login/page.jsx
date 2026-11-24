@@ -12,7 +12,7 @@ export default function LoginPage() {
         className="w-full max-w-sm space-y-4 rounded-xl border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900"
       >
         <div>
-          <h1 className="text-lg font-semibold">Crewloom</h1>
+          <h1 className="text-lg font-semibold">Zyqentra</h1>
           <p className="text-sm text-slate-500 dark:text-slate-400">Your team and its AI agents on one board.</p>
         </div>
         <label className="block text-sm">

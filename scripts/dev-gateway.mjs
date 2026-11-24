@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Run a local OpenClaw Gateway with Crewloom plugins and skills.
+// Run a local OpenClaw Gateway with Zyqentra plugins and skills.
 // State lives in ./.openclaw-dev (git-ignored). Secrets come from ./.env.
 import { execFileSync, spawn } from 'node:child_process';
 import { existsSync, mkdirSync, readFileSync } from 'node:fs';

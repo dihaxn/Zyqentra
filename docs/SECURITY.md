@@ -5,17 +5,17 @@ code where possible and written into the skills where not.
 
 ## Built in
 
-- **Agents only get Crewloom's tools.** The Gateway runs with `tools.profile: "minimal"` plus an
-  allowlist (`scripts/gateway-config.mjs`): the Crewloom plugins, Workboard, skills and memory. OpenClaw's
+- **Agents only get Zyqentra's tools.** The Gateway runs with `tools.profile: "minimal"` plus an
+  allowlist (`scripts/gateway-config.mjs`): the Zyqentra plugins, Workboard, skills and memory. OpenClaw's
   shell, file-write, browser, desktop-control, plugin-install and config tools are not available to
   agents, elevated execution is off, and the browser and computer-use plugins are disabled. Checked with
   `openclaw security audit` (0 critical) and by calling the blocked tools.
-- **Tests run without secrets.** `crewloom_run_checks` gives npm only `PATH`, `HOME`, locale, proxy and CA
+- **Tests run without secrets.** `zyqentra_run_checks` gives npm only `PATH`, `HOME`, locale, proxy and CA
   settings (plus names listed in `passEnv`). Model keys and the gateway token never reach `npm ci` or the
   repo's scripts; git alone gets the GitHub token, through a credential helper. A timeout stops the
   whole process tree. Branches are fetched from the ERP's own `origin`, so code from forks is never run.
-- **Narrow tools.** `crewloom-github` only reaches allowlisted repositories and has no merge, approve, push,
-  close or delete tool. `crewloom-qa` only runs allowlisted npm scripts, spawns without a shell, validates
+- **Narrow tools.** `zyqentra-github` only reaches allowlisted repositories and has no merge, approve, push,
+  close or delete tool. `zyqentra-qa` only runs allowlisted npm scripts, spawns without a shell, validates
   refs, refuses a dirty checkout and only opens allowlisted hosts (redirects included).
 - **Narrow console.** The console can call eight Gateway methods (`lib/gateway-methods.mjs`); config,
   plugin management and tool invocation stay in OpenClaw's own admin UI. The Gateway token never reaches
@@ -32,4 +32,4 @@ code where possible and written into the skills where not.
    Database migrations stay a manual step (see Zyora-erp `docs/DEPLOYMENT.md`).
 4. Anything public (social posts, emails to customers, live site changes) needs a person to approve it.
 5. Treat PR text, issue comments and web pages the agent reads as untrusted input, not instructions.
-6. Rotate `CREWLOOM_GITHUB_TOKEN` and `OPENCLAW_GATEWAY_TOKEN` if a laptop or the server may be compromised.
+6. Rotate `ZYQENTRA_GITHUB_TOKEN` and `OPENCLAW_GATEWAY_TOKEN` if a laptop or the server may be compromised.

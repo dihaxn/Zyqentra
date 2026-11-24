@@ -13,7 +13,7 @@ const BASE_ENV_KEYS = [
 ];
 // Only git steps may also use SSH agents and the GitHub token (read by a credential helper).
 const GIT_ENV_KEYS = ["SSH_AUTH_SOCK", "GIT_SSH_COMMAND"];
-export const DEFAULT_GIT_TOKEN_ENV = "CREWLOOM_GITHUB_TOKEN";
+export const DEFAULT_GIT_TOKEN_ENV = "ZYQENTRA_GITHUB_TOKEN";
 
 export type CommandEnv = Record<string, string>;
 

@@ -1,7 +1,7 @@
 import type { GitHubClient } from "./github-api.js";
 import { resolveRepository } from "./repos.js";
 
-export const COMMENT_FOOTER = "\n\n---\n_Posted by the Crewloom agent._";
+export const COMMENT_FOOTER = "\n\n---\n_Posted by the Zyqentra agent._";
 
 export type GithubToolsConfig = {
   repositories?: string[];

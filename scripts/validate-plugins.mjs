@@ -10,7 +10,7 @@ import { PLUGIN_DIRS } from './gateway-config.mjs';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const bin = process.env.OPENCLAW_BIN ?? path.join(root, 'node_modules', '.bin', 'openclaw');
 // A throwaway state dir, so validation never touches a real Gateway's state.
-const state = mkdtempSync(path.join(os.tmpdir(), 'crewloom-validate-'));
+const state = mkdtempSync(path.join(os.tmpdir(), 'zyqentra-validate-'));
 let failed = false;
 try {
   for (const dir of PLUGIN_DIRS) {

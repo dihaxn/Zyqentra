@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Crewloom',
+  title: 'Zyqentra',
   description: 'Your team and its AI agents on one board, on OpenClaw.',
   robots: { index: false, follow: false },
 };
