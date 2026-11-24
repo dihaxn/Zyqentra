@@ -2,6 +2,9 @@
 # Prepare the ERP test checkout and Crewloom config, then start the Gateway.
 set -eu
 
+# OpenClaw's security audit wants the state directory private to the gateway user.
+mkdir -p "${OPENCLAW_STATE_DIR:-/home/node/.openclaw}" && chmod 700 "${OPENCLAW_STATE_DIR:-/home/node/.openclaw}"
+
 ERP="${CREWLOOM_QA_CHECKOUT:-/srv/zyora-erp}"
 # Git reads the token from the environment at fetch time; it is never written to disk.
 HELPER='!f() { echo username=x-access-token; echo "password=${CREWLOOM_GITHUB_TOKEN}"; }; f'

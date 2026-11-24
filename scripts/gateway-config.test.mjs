@@ -45,3 +45,16 @@ test('plugin runtime dependencies merge, and conflicts are refused', async () =>
     /wants x@2/,
   );
 });
+
+test('agents get a minimal tool profile with only Crewloom, Workboard, skills and memory on top', async () => {
+  const { AGENT_TOOL_ALLOWLIST } = await import('./gateway-config.mjs');
+  const entries = Object.fromEntries(gatewayConfigEntries({ root: '/srv/crewloom' }));
+  assert.equal(entries['tools.profile'], 'minimal');
+  assert.deepEqual(entries['tools.alsoAllow'], AGENT_TOOL_ALLOWLIST);
+  assert.equal(entries['tools.elevated.enabled'], false);
+  assert.equal(entries['plugins.entries.browser.enabled'], false);
+  assert.equal(entries['plugins.entries.cua-computer.enabled'], false);
+  for (const risky of ['exec', 'group:runtime', 'group:fs', 'write', 'plugins', 'gateway', 'group:automation', 'browser', 'computer', 'group:plugins']) {
+    assert.equal(AGENT_TOOL_ALLOWLIST.includes(risky), false, risky);
+  }
+});

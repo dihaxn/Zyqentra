@@ -3,6 +3,17 @@ import path from 'node:path';
 export const PLUGIN_DIRS = ['plugins/github', 'plugins/qa'];
 export const DEFAULT_MODEL = 'anthropic/claude-sonnet-5-5';
 export const MANAGED_REPOSITORIES = ['dihaxn/Zyora-erp', 'dihaxn/crewloom'];
+// Everything an agent may call on top of the minimal profile. No shell, file writes,
+// plugin installs, gateway config, browser or computer control.
+export const AGENT_TOOL_ALLOWLIST = [
+  'crewloom-github',
+  'crewloom-qa',
+  'workboard',
+  'skills_read',
+  'skills_search',
+  'group:memory',
+  'ask_user',
+];
 
 /**
  * The Gateway settings Crewloom depends on, as `openclaw config set` entries.
@@ -22,6 +33,12 @@ export function gatewayConfigEntries({ root, erpCheckout, model = DEFAULT_MODEL 
   return [
     ['gateway.mode', 'local'],
     ['agents.defaults.model.primary', model],
+    ['tools.profile', 'minimal'],
+    ['tools.alsoAllow', AGENT_TOOL_ALLOWLIST],
+    ['tools.elevated.enabled', false],
+    // Smoke tests drive their own Chromium; agents need neither browser nor desktop control.
+    ['plugins.entries.browser.enabled', false],
+    ['plugins.entries.cua-computer.enabled', false],
     ['plugins.load.paths', PLUGIN_DIRS.map((dir) => path.join(root, dir))],
     ['plugins.entries.workboard.enabled', true],
     ['plugins.entries.crewloom-github.enabled', true],

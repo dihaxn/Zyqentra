@@ -15,6 +15,8 @@ type QaConfig = {
   allowedHosts?: string[];
   screenshotDir?: string;
   bypassSecretEnv?: string;
+  passEnv?: string[];
+  gitTokenEnv?: string;
 };
 
 function repoPathFrom(config: QaConfig | undefined): string {
@@ -45,6 +47,14 @@ export default defineToolPlugin({
       }),
     ),
     screenshotDir: Type.Optional(Type.String({ description: "Where screenshots are saved. Default the OS temp dir." })),
+    passEnv: Type.Optional(
+      Type.Array(Type.String(), {
+        description: "Extra environment variable names npm scripts may see (public build settings only, never secrets).",
+      }),
+    ),
+    gitTokenEnv: Type.Optional(
+      Type.String({ description: "Env var git may use for GitHub credentials. Never passed to npm. Default CREWLOOM_GITHUB_TOKEN." }),
+    ),
     bypassSecretEnv: Type.Optional(
       Type.String({ description: `Env var with the Vercel protection bypass secret. Default ${DEFAULT_BYPASS_ENV}.` }),
     ),
@@ -70,6 +80,8 @@ export default defineToolPlugin({
           ref,
           install,
           allowedScripts: config?.allowedScripts,
+          passEnv: config?.passEnv,
+          gitTokenEnv: config?.gitTokenEnv,
           timeoutMs: (config?.timeoutMinutes ?? 30) * 60_000,
           signal: context?.signal,
         }),

@@ -20,4 +20,6 @@ allowlist (`zyoraerp.com`, `*.zyoraerp.com`, `*.vercel.app` by default); redirec
 | `timeoutMinutes` | `30` | Per `crewloom_run_checks` run |
 | `allowedHosts` | see above | `*.example.com` matches subdomains only |
 | `screenshotDir` | OS temp dir | |
+| `passEnv` | none | Extra env var names npm scripts may see (public build settings only). Everything else on the Gateway is withheld |
+| `gitTokenEnv` | `CREWLOOM_GITHUB_TOKEN` | Env var git may use for GitHub credentials; never given to npm |
 | `bypassSecretEnv` | `VERCEL_AUTOMATION_BYPASS_SECRET` | For protected Vercel previews |

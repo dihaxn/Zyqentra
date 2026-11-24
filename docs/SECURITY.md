@@ -5,6 +5,15 @@ code where possible and written into the skills where not.
 
 ## Built in
 
+- **Agents only get Crewloom's tools.** The Gateway runs with `tools.profile: "minimal"` plus an
+  allowlist (`scripts/gateway-config.mjs`): the Crewloom plugins, Workboard, skills and memory. OpenClaw's
+  shell, file-write, browser, desktop-control, plugin-install and config tools are not available to
+  agents, elevated execution is off, and the browser and computer-use plugins are disabled. Checked with
+  `openclaw security audit` (0 critical) and by calling the blocked tools.
+- **Tests run without secrets.** `crewloom_run_checks` gives npm only `PATH`, `HOME`, locale, proxy and CA
+  settings (plus names listed in `passEnv`). Model keys and the gateway token never reach `npm ci` or the
+  repo's scripts; git alone gets the GitHub token, through a credential helper. A timeout stops the
+  whole process tree. Branches are fetched from the ERP's own `origin`, so code from forks is never run.
 - **Narrow tools.** `crewloom-github` only reaches allowlisted repositories and has no merge, approve, push,
   close or delete tool. `crewloom-qa` only runs allowlisted npm scripts, spawns without a shell, validates
   refs, refuses a dirty checkout and only opens allowlisted hosts (redirects included).

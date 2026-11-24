@@ -34,6 +34,17 @@
         "type": "string",
         "description": "Where screenshots are saved. Default the OS temp dir."
       },
+      "passEnv": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Extra environment variable names npm scripts may see (public build settings only, never secrets)."
+      },
+      "gitTokenEnv": {
+        "type": "string",
+        "description": "Env var git may use for GitHub credentials. Never passed to npm. Default CREWLOOM_GITHUB_TOKEN."
+      },
       "bypassSecretEnv": {
         "type": "string",
         "description": "Env var with the Vercel protection bypass secret. Default VERCEL_AUTOMATION_BYPASS_SECRET."

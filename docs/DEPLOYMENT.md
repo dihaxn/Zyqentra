@@ -33,11 +33,18 @@ token from the environment; it is not stored), applies `scripts/gateway-config.m
 ## 3. Reach it over Tailscale
 
 ```bash
-sudo tailscale serve --bg --https=443 http://127.0.0.1:3200      # console
-sudo tailscale serve --bg --https=8443 http://127.0.0.1:18789    # OpenClaw Control UI, admins only
+sudo tailscale serve --bg --https=443 http://127.0.0.1:3200      # Crewloom console for the team
 ```
 
-Do not open ports 3200 or 18789 in the firewall.
+Admins reach OpenClaw's own Control UI through an SSH tunnel rather than a proxy (a proxy in front of it
+needs `gateway.trustedProxies` set, or local-client checks can be spoofed):
+
+```bash
+ssh -L 18789:127.0.0.1:18789 <server>    # then open http://127.0.0.1:18789
+```
+
+Do not open ports 3200 or 18789 in the firewall. Run `openclaw-cli security audit` in the gateway
+container after any config change; it should report 0 critical findings.
 
 ## 4. Team chat (optional)
 

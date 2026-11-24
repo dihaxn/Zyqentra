@@ -1,11 +1,11 @@
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { getToolPluginMetadata } from "openclaw/plugin-sdk/tool-plugin";
 import entry from "./index.js";
-import { runChecks, validateRef, type RunCommand } from "./checks.js";
+import { runChecks, runCommand, validateRef, type CommandEnv, type RunCommand } from "./checks.js";
 
 describe("crewloom-qa metadata", () => {
   it("declares the checks, smoke and page audit tools", () => {
@@ -28,13 +28,15 @@ describe("validateRef", () => {
 
 function fakeRun(outputs: Record<string, { exitCode?: number; output?: string }> = {}) {
   const calls: string[] = [];
-  const run: RunCommand = async (command, args) => {
+  const envs: Record<string, CommandEnv> = {};
+  const run: RunCommand = async (command, args, options) => {
     const line = [command, ...args].join(" ");
     calls.push(line);
+    envs[line] = options.env;
     const match = outputs[line] ?? {};
     return { exitCode: match.exitCode ?? 0, output: match.output ?? "", durationMs: 1, timedOut: false };
   };
-  return { run, calls };
+  return { run, calls, envs };
 }
 
 describe("runChecks with a fake runner", () => {
@@ -56,6 +58,33 @@ describe("runChecks with a fake runner", () => {
       "npm run verify",
     ]);
     expect(result).toMatchObject({ ok: true, ref: "feature/x", commit: "abc123", failedStep: null });
+  });
+
+  it("keeps Gateway secrets away from npm scripts and gives git only the GitHub token", async () => {
+    const { run, envs } = fakeRun();
+    await runChecks({
+      repoPath: "/r",
+      script: "verify",
+      ref: "main",
+      timeoutMs: 1000,
+      run,
+      passEnv: ["NEXT_PUBLIC_SUPABASE_URL"],
+      sourceEnv: {
+        PATH: "/usr/bin",
+        HOME: "/home/node",
+        ANTHROPIC_API_KEY: "sk-secret",
+        OPENCLAW_GATEWAY_TOKEN: "gw-secret",
+        CREWLOOM_GITHUB_TOKEN: "gh-secret",
+        NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co",
+      },
+    });
+    const npm = envs["npm run verify"]!;
+    expect(npm).toEqual({ CI: "1", FORCE_COLOR: "0", PATH: "/usr/bin", HOME: "/home/node", NEXT_PUBLIC_SUPABASE_URL: "https://example.supabase.co" });
+    expect(envs["npm ci --no-audit --no-fund"]).toEqual(npm);
+    const git = envs["git fetch --depth=50 origin main"]!;
+    expect(git.CREWLOOM_GITHUB_TOKEN).toBe("gh-secret");
+    expect(git.ANTHROPIC_API_KEY).toBeUndefined();
+    expect(git.OPENCLAW_GATEWAY_TOKEN).toBeUndefined();
   });
 
   it("stops at a dirty checkout without touching it", async () => {
@@ -95,7 +124,7 @@ describe("runChecks against real git and npm", () => {
       );
       execFileSync("npm", ["install", "--package-lock-only", "--no-audit", "--no-fund"], { cwd: origin, stdio: "pipe" });
     };
-    writePackage('node -e "console.log(\'all green\')"');
+    writePackage('node -e "console.log(\'all green\', process.env.ANTHROPIC_API_KEY || \'no-key\')"');
     git(origin, "add", ".");
     git(origin, "commit", "-q", "-m", "green");
     git(origin, "checkout", "-q", "-b", "broken");
@@ -108,9 +137,16 @@ describe("runChecks against real git and npm", () => {
   afterAll(() => rmSync(root, { recursive: true, force: true }));
 
   it("passes on a green branch and fails on a red one", async () => {
-    const green = await runChecks({ repoPath: checkout, script: "verify", ref: "main", timeoutMs: 120_000 });
+    const green = await runChecks({
+      repoPath: checkout,
+      script: "verify",
+      ref: "main",
+      timeoutMs: 120_000,
+      sourceEnv: { ...process.env, ANTHROPIC_API_KEY: "sk-should-not-leak" },
+    });
     expect(green.ok).toBe(true);
-    expect(green.steps.at(-1)?.outputTail).toContain("all green");
+    expect(green.steps.at(-1)?.outputTail).toContain("all green no-key");
+    expect(JSON.stringify(green)).not.toContain("sk-should-not-leak");
 
     const red = await runChecks({ repoPath: checkout, script: "verify", ref: "broken", timeoutMs: 120_000 });
     expect(red.ok).toBe(false);
@@ -119,4 +155,26 @@ describe("runChecks against real git and npm", () => {
     expect(red.steps.at(-1)?.outputTail).toContain("lint failed");
     expect(red.commit).not.toBe(green.commit);
   }, 180_000);
+});
+
+describe.skipIf(process.platform !== "linux")("runCommand", () => {
+  it("stops the whole process tree on timeout", async () => {
+    const result = await runCommand("sh", ["-c", "sleep 300 & echo $!; wait"], {
+      cwd: os.tmpdir(),
+      timeoutMs: 1500,
+      env: { PATH: process.env.PATH ?? "/usr/bin:/bin" },
+    });
+    expect(result.timedOut).toBe(true);
+    const grandchild = Number(result.output.trim().split("\n")[0]);
+    expect(grandchild).toBeGreaterThan(0);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    // Dead means gone, or a zombie waiting for an init process to reap it.
+    let state = "gone";
+    try {
+      state = readFileSync(`/proc/${grandchild}/stat`, "utf8").split(" ")[2] ?? "gone";
+    } catch {
+      // No such process.
+    }
+    expect(["gone", "Z", "X"]).toContain(state);
+  }, 10_000);
 });
